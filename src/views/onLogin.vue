@@ -1,7 +1,7 @@
 <template>
     <div class="onLogin">
         <div class="onloginHeader">
-            <router-link style="color:white" to="/person">返回</router-link>
+            <div style="color:white" @click="golast()">返回</div>
             <div style="font-size: 1.4rem;">登录</div>
             <router-link style="color:white" to="/register">注册</router-link>
         </div>
@@ -19,12 +19,12 @@
             </div>
         </div>
         <div>
-            <router-link to="/person">
-                <Button style="width:86%" type="info">登录</Button>
-            </router-link>
+            <!-- <router-link to="/person"> -->
+            <Button style="width:86%;height: 40px;font-size: 18px;" type="info" @click.native="login">登录</Button>
+            <!-- </router-link> -->
             <div style="padding-top:.4rem;color:#AABBCC;">忘记密码？</div>
         </div>
-        <div style="padding-bottom:0;color:#aabbcc;">
+        <div style="padding-bottom: 0px;color: rgb(170, 187, 204);position: absolute;width: 100vw;bottom: 3%;">
             <div>_______其他方式登陆________</div>
             <div style="display:flex;justify-content: space-evenly;padding-top:1rem;">
                 <div>
@@ -41,13 +41,47 @@
     </div>
 </template>
 <script>
+import axios from "axios"
+import '@/api/user'
 export default {
     data(){
         return {
-            account: '2522594977@qq.com',
-            password: 12345678
-            // account: '',
-            // password: null
+            account: '',
+            password: ''
+        }
+    },
+    methods: {
+        golast(){
+            this.$router.go(-1);
+        },
+        login() {
+            if(this.account && this.password){
+                console.log(this.account,this.password)
+                axios({
+                    method:"post",
+                    url: 'https://weekly.com/login',
+                    data: {account: this.account, password: this.password}
+                }).then(x => {
+                    let resp = x.data;
+                    console.log(resp)
+                    if(!resp.flag){
+                        console.log(resp.message);
+                        this.$Notice.error({
+                            title: resp.message,
+                            desc: '',
+                            duration: 3 //1秒后自动关闭
+                        });
+                    }else{
+                        localStorage.setItem('token','123');
+                        alert('登录成功')
+                        this.$router.push({
+                            name: 'person'
+                        })
+                    }
+                })    
+            }
+
+            
         }
     }
 }

@@ -34,12 +34,25 @@
         </router-link>
       </div>
       
-      <router-link to="/onLogin" style="text-align:center;padding: 10% 0;width: 100%;display:inline-block">
+      <div class="exitlogin" @click="exitBtn">
         <Button style="width:60%;" size="large" shape="circle">退出登录</Button>
-      </router-link>
+      </div>
       
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    exitBtn(){
+        localStorage.removeItem('token');
+        this.$router.push({
+          name: "onLogin"
+        })
+    }
+    
+  }
+}
+</script>
 <style>
     .person {
         background: white; 
@@ -69,5 +82,11 @@
       color:white;
       display:flex;
       justify-content:space-between;
+    }
+    .exitlogin {
+      text-align:center;
+      padding: 10% 0;
+      width: 100%;
+      display:inline-block
     }
 </style>

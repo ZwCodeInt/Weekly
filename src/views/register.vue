@@ -5,33 +5,36 @@
             <div style="font-size: 1.4rem;">注册</div>
             <router-link style="color:white" to="/onLogin">登录</router-link>
         </div>
-        <div class="registerInput registerCon" >
-            <label>账号</label>
-            <input type="text" name="" placeholder = "请输入注册账号" v-model="account"   @change="checkRegister(1,account)">
-        </div>
-        <div class="registerName registerCon" >
-            <label>用户名</label>
-            <input type="text" name="" placeholder = "请输入用户名/昵称" v-model="accountName"  @change="checkRegister(2,accountName)">
-        </div>
-        <div class="registerInput2 registerCon" >
-            <label>密码</label>
-            <div style="width:70%;display:inline-flex;font-size: 1.2rem;">
-                <Input type="password" name="" password placeholder = "请输入密码" v-model="password1" ref ="password1"  />
+
+        <div class="register">
+            <div class="registerInput registerCon" >
+                <label>账号</label>
+                <input type="text" name="" placeholder = "请输入注册账号" v-model="account"   >
+            </div>
+            <!-- <div class="registerName registerCon" >
+                <label>用户名</label>
+                <input type="text" name="" placeholder = "请输入用户名/昵称" v-model="accountName"  @change="checkRegister(2,accountName)">
+            </div> -->
+            <div class="registerInput2 registerCon" >
+                <label>密码</label>
+                <div style="width:70%;display:inline-flex;font-size: 1.2rem;">
+                    <Input type="password" name="" password placeholder = "请输入密码" v-model="password1" ref ="password1"  />
+                </div>
+            </div>
+            <div class="registerInput3 registerCon" >
+                <label>确认密码</label>
+                <div style="width:70%;display:inline-flex;font-size: 1.2rem;">
+                    <Input type="password" name="" password placeholder = "请再次确认密码" v-model="password2" ref ="password2"  @blur="checkPassword" />
+                </div>
             </div>
         </div>
-        <div class="registerInput3 registerCon" >
-            <label>确认密码</label>
-            <div style="width:70%;display:inline-flex;font-size: 1.2rem;">
-                <Input type="password" name="" password placeholder = "请再次确认密码" v-model="password2" ref ="password2"  />
-            </div>
+
+        <div class="registerBtn" @click="registerBtn">
+            <!-- <router-link to="/onLogin" > -->
+                <Button style="width: 84%;height: 40px;font-size: 18px;" type="info">注册</Button>
+            <!-- </router-link> -->
         </div>
-        <div>
-            <router-link to="/onLogin" >
-                <Button style="width:86%" type="info">注册</Button>
-            </router-link>
-           
-        </div>
-        <div style="padding-bottom:0;color:#aabbcc;">
+        <div style="padding-bottom: 0px;color: rgb(170, 187, 204);position: absolute;width: 100vw;bottom: 3%;text-align: center;">
             <div>_______其他方式注册________</div>
             <div style="display:flex;justify-content: space-evenly;padding-top:1rem;">
                 <div>
@@ -48,23 +51,68 @@
     </div>
 </template>
 <script>
+import axios from  'axios'
+import '@/api/user'
 export default {
     data(){
         return {
            account: '',
-           accountName: "",
+        //    accountName: "",
            password1: "",
            password2: "",
            isRegisterOk: false
         }
     },
     methods: {
-        checkRegister(a,e){
-            console.log(a,e);
+        checkPassword() {
+            if(this.password1 !== this.password2){
+                this.$Notice.error({
+                    title: "密码不一致",
+                    desc: '',
+                    duration: 3 //1秒后自动关闭
+                });
+            }
         },
-        // registerBtn(){
-        //     this.checkRegister()
-        // }
+        checkInput(){
+            if(this.account && this.password1 && this.password2 && this.password1 === this.password2){
+                this.requestApi();
+                console.log("执行");
+            }
+        },
+        requestApi() {
+            axios({
+                method: "post",
+                url: "https://weekly.com/register",
+                data: {
+                   account: this.account,
+                   password: this.password1
+
+                }
+            }).then( x => {
+                let resp = x.data;
+                if(!resp.flag){
+                    this.$Notice.error({
+                        title: resp.message,
+                        desc: '',
+                        duration: 3 //1秒后自动关闭
+                    });
+                    console.log(resp.message)
+                    
+                }
+                else {
+                    this.$Notice.success({
+                        title: "注册成功！",
+                        desc: '',
+                        duration: 3 //1秒后自动关闭
+                    });
+                    this.$router.push({name:"onLogin"});
+                }
+            })
+        },
+        registerBtn(){
+            this.checkPassword();
+            this.checkInput();
+        }
     },
 }
 </script>
@@ -85,11 +133,17 @@ export default {
         border: none;
         color: white;
     }
-    .onLogin >div {
+    .register {
+        margin: 20% 0;
+    }
+    .register >div {
         text-align: center;
         padding: 1.4rem 1rem;
     }
-
+    .registerBtn {
+        display: flex;
+        justify-content: center;
+    }
     .loginImage {
         width: 7rem;
         height: 7rem;
@@ -103,7 +157,7 @@ export default {
         font-size: 1rem;
     }
     .registerCon {
-        margin: 0 12%;
+        margin: 0 8%;
         border-bottom: 1px dotted #fff;
         font-size: 1rem;
         line-height: 3.2rem;

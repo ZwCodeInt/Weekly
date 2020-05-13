@@ -14,8 +14,8 @@ let Id = [1,2,3,4,5,6];
 // let recordDay = ["sssddd","monday", "thurday","sddd","ggttt","efrjehf"];
 let WorkContent = ["完成数据mock借口模拟","实现html5+Div+Css布局","微信小程序功能完善以及完成新需求","三大框架文档总结","个人周报重构以及部分代码实现可复用性","个人周报重构以及部分代码实现可复用性"];
 let Progress = [50,30,60,40,80,90];
-let RecordDate = ["2020-02-02 ","2020-02-03 ","2020-02-04 ","2020-02-05 ","2020-02-06","2020-02-06"];
-let RecordDay = ["星期一","星期二","星期三","星期四","星期五","星期五"];
+let RecordDate = ["2020-02-02","2020-02-03","2020-02-04","2020-02-05","2020-02-06","2020-02-07"];
+let RecordDay = ["星期一","星期二","星期三","星期四","星期五","星期六"];
 
 for(let i = 0;i<6; i++) {
     data.push({
@@ -55,16 +55,28 @@ let edit = function(option){
 let add = function(option){
     let addData = JSON.parse(option.body).addObj;
     // let id = addData.editId;
-    data.push({
-        Id: parseInt(data.length+1),
-        WorkContent: addData.addWork,
-        Progress: addData.addProgress,
-        RecordDay: addData.addDay,
-        RecordDate: addData.addDate
-    })
-    return {
-        isSuccess: true
+    debugger;
+    let hasno = data.filter(x=>x.RecordDate == addData.addDate).length;
+    if(hasno == 0){
+        data.push({
+            Id: parseInt(data.length+1),
+            WorkContent: addData.addWork,
+            Progress: addData.addProgress,
+            RecordDay: addData.addDay,
+            RecordDate: addData.addDate
+        })
+        return {
+            isSuccess: true
+        }
     }
+    else {
+        return {
+            isSuccess: false
+        } 
+    }
+    
+ 
+
 
 }
 

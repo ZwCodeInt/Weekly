@@ -1,6 +1,6 @@
 <template>
     <div class = "edit">
-        <div class="edit-header">
+        <div class="edit-header conheader">
             <div>
                 <router-link to="/search" class="lastPage">
                     <img src="../assets/last.png">
@@ -142,38 +142,43 @@ export default {
 </script>
 <style scoped>
     .edit{
-        background-image: url("~@/assets/xingkong11.jpg");
-        width:100%;
-        height: 100%;
-        padding: 15% 10%;
-        position: relative;
+        /* background-image: url("~@/assets/xingkong11.jpg");
         background-repeat: no-repeat;
-        background-size: 100% auto;
+        background-size: 100% auto; 
+       
+        padding: 15% 10%;
+        position: relative;*/
+         width:100%;
+        height: 100%;
         
     }
     .lastPage>img{
         width: 1.4rem;
         height: 1.4rem;
     }
+    .lastPage {
+        display: flex;
+    }
     .edit-header{
-        position: absolute;
+        /* position: absolute;
+        top: 0;
+        left: 0 ;
+        height: 8%; */
         color: white;
         display: flex;
         width: 100%;
-        height: 8%;
-        top: 0;
-        left: 0 ;
+
         justify-content: space-between;
         align-items: center;
         padding: 0 1rem;
         
     }
     .edit-content{
-        width: 100%;
         height: 80vh;
-        background: #ffffffab;
+        background: #e2e7f9;
         border-radius: 1rem;
         padding: 1rem 1.6rem;
+        margin: 8% 5%;
     }
     .edit-title{
         height: 3rem;

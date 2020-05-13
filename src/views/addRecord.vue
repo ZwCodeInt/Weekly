@@ -215,9 +215,9 @@ export default {
         
     }
     .content{
-        width: 80%;
+        width: 90%;
         height: 80vh;
-        margin: 0 10%;
+        margin: 0 5%;
         margin-top:20px;
         background: rgb(255, 255, 255);
         border-radius: 5%;

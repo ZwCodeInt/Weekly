@@ -50,6 +50,10 @@ export default new Vuex.Store({
        "~@/assets/fourth.png",
        "~@/assets/fifth.png"
     ],
+    user:[{
+      account: '2522594977@qq.com',
+      password: 12345678
+    }]
   },
   mutations: {
     changeRecord (state, pushobj){
